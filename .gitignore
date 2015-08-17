@@ -6,3 +6,4 @@ readAbility.css
 response.json
 
 config.py
+*.pyc
