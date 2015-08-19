@@ -5,5 +5,7 @@ newDOC.html
 readAbility.css
 response.json
 
+testEnv/
+
 config.py
 *.pyc
