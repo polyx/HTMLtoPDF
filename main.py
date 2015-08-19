@@ -31,11 +31,12 @@ class ArticleRequester:
             response_json.write(self.response.text)
             response_json.close()
 
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('URL', help='URL with article to be converted to pdf article')
-    parser.add_argument('-o', '--output', help='Output file name without extension(Always pdf)' )
+    parser.add_argument('URL', 
+      help='URL with article to be converted to pdf article')
+    parser.add_argument('-o', '--output', 
+      help='Output file name without extension(Always pdf)' )
     args = parser.parse_args()
     if args.output:
         print(args.output)

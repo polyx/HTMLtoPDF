@@ -2,7 +2,7 @@ import pdfkit
 
 
 class ToPDF:
-    def __init__(self, doc, css):
+    def __init__(self, doc, css = 'css/crayon.css'):
         self.doc = doc
         self.css = css
 
