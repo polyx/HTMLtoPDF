@@ -1,12 +1,12 @@
 import config
 import requests
-import HTMLtoPDFRederer
+from HTMLtoPDFRederer import ToPDF
 import argparse
 
 class ArticleRequester:
-    def __init__(self, url=config.settings['url']):
+    def __init__(self, url=config.settings['url'], alt_req_url='https://readability.com/api/content/v1/parser'):
 
-        self.req_url = 'https://readability.com/api/content/v1/parser'
+        self.req_url = alt_req_url
         self.args = {
             'token' : config.settings['token'],
             'url' : url
@@ -14,15 +14,22 @@ class ArticleRequester:
 
 
     def getArticle(self):
-        response = requests.get(self.req_url, args)
+        #for some reason passing self.args doesnt work #FuckingMagic
+        response = requests.get(self.req_url, {
+            'token':self.args['token'],
+            'url': self.args['url']
+        })
 
         if response.status_code == requests.codes.ok:
-            print("Response recieved. CODE: " + response.status_code)
+            print("Response recieved. CODE: " + str(response.status_code))
             json_resp = response.json()
             content = json_resp['content']
 
         return content
 
+    def savePDF(self, content):
+      pdf = ToPDF(content)
+      pdf.convert()
 
     def writeDebugFiles(self):
         with open('etc/content.html','w') as f:
@@ -35,10 +42,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('URL', 
       help='URL with article to be converted to pdf article')
-    parser.add_argument('-o', '--output', 
-      help='Output file name without extension(Always pdf)' )
     args = parser.parse_args()
-    if args.output:
-        print(args.output)
-    else:
-        print(args.URL)
+    req = ArticleRequester()
+    content = req.savePDF(req.getArticle())
