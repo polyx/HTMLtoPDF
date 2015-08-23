@@ -2,10 +2,10 @@ import pdfkit
 
 
 class ToPDF:
-    def __init__(self, doc, css = 'css/crayon.css'):
+    def __init__(self, doc, css = 'css/bootstrap.css'):
         self.doc = doc
         self.css = css
 
-    def convert(self, output='out.pdf'):
-        self.doc = '<html><head></head><body>' + self.doc + '</body></html>'
+    def convert(self, title = '', output='out.pdf'):
+        self.doc = '<html><head></head><body><h1>'+ title +'</h1><sbr>' + self.doc + '</body></html>'
         pdfkit.from_string(self.doc, output_path=output, css=self.css)

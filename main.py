@@ -5,13 +5,12 @@ import argparse
 
 class ArticleRequester:
     def __init__(self, url=config.settings['url'], alt_req_url='https://readability.com/api/content/v1/parser'):
-
+        self.response = None
         self.req_url = alt_req_url
         self.args = {
             'token' : config.settings['token'],
             'url' : url
         }
-
 
     def getArticle(self):
         #for some reason passing self.args doesnt work #FuckingMagic
@@ -23,13 +22,14 @@ class ArticleRequester:
         if response.status_code == requests.codes.ok:
             print("Response recieved. CODE: " + str(response.status_code))
             json_resp = response.json()
+            self.response = json_resp
             content = json_resp['content']
 
         return content
 
-    def savePDF(self, content):
+    def savePDF(self, content, title=''):
       pdf = ToPDF(content)
-      pdf.convert()
+      pdf.convert(title=title)
 
     def writeDebugFiles(self):
         with open('etc/content.html','w') as f:
@@ -39,9 +39,12 @@ class ArticleRequester:
             response_json.close()
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('URL', 
-      help='URL with article to be converted to pdf article')
-    args = parser.parse_args()
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument('URL',
+    #   help='URL with article to be converted to pdf article')
+    # args = parser.parse_args()
     req = ArticleRequester()
-    content = req.savePDF(req.getArticle())
+    article = req.getArticle()
+    response = req.response
+    print(response['title'])
+    content = req.savePDF(article, title=response['title'])
