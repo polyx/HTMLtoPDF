@@ -1,8 +1,9 @@
 import pdfkit
+import os
 
 
 class ToPDF:
-    def __init__(self, doc, css = 'css/bootstrap.css'):
+    def __init__(self, doc, css = os.path.dirname(os.path.abspath(__file__)) + '\\..\\css\\bootstrap.css'):
         self.doc = doc
         self.css = css
 

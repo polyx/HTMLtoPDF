@@ -7,5 +7,9 @@ response.json
 
 testEnv/
 
-config.py
+HTMLtoPDF/config.py
 *.pyc
+
+HTMLtoPDF.egg-info/
+build/
+dist/
