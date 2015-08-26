@@ -1,13 +1,16 @@
 
 # HTMLtoPDF
-I like to send some articles to readitlater or other similar services, but sometimes I want a pdf of an article.
+Converts articles on the web to the pdf.
+Uses python 3.4 but should work on any 3.x
 
 ###Usage
-Ugh right now you have to rename and config_example.py to config.py and insert correct values
-Other than that it does not even function very well
+`python main.py -u <article url>` or just `python main.py` and give set article url in config.py
 
 ###Dependencies
-* pdfkit `pip install pdfkit`
+* pdfkit `pip install pdfkit` Note: might not work from virtualenv
 * wkhtmltopdf which is required by pdfkit. To install go to http://wkhtmltopdf.org/
 * requests `pip install requests`
 
+
+###Known issues
+Does not handle code snipets well - no monospace font or other forms of special formating is applied to code snippets. If you have ideas how to detect code snippets and format them nicely feel free to send a pull request.
