@@ -4,7 +4,10 @@ Converts articles on the web to the pdf.
 Uses python 3.4 but should work on any 3.x
 
 ###Usage
-`python main.py -u <article url>` or just `python main.py` and give set article url in config.py
+`python -m HTMLtoPDF -u <article url>` or just install with `python setup.py install`
+than you can run it just with `HTMLtoPDF -u <article ur>`
+
+Make sure to make `config.py` form `config_example.py` and put it into HTMLtoPDF folder
 
 ###Dependencies
 * pdfkit `pip install pdfkit` Note: might not work from virtualenv
