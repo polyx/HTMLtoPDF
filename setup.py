@@ -20,5 +20,5 @@ setup(
     author="Dmitry Filosofov",
     author_email="filosofov.dmitry@gmail.com",
     url="https://github.com/polyx/HTMLtoPDF",
-    data_files=[('css', ['HTMLtoPDF/css/bootstrap.css'])]
+    data_files=[('css', ['css/bootstrap.css'])]
 )

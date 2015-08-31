@@ -1,3 +1,3 @@
-from HTMLtoPDF import main
+from HTMLtoPDF.main import main
 
 main()
