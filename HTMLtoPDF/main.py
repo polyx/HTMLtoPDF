@@ -7,43 +7,38 @@ from .PDFConverter import ToPDF
 
 __version__ = '0.0.1'
 
-
-
-
 class ArticleRequester:
     def __init__(self, url=config.settings['url'],
-                 token=config.settings['token'],
-                 alt_req_url='https://readability.com/api/content/v1/parser'):
+                 token=config.settings['token'],):
+        self.urls = url
         self.response = None
-        self.req_url = alt_req_url
-        self.args = dict(token=config.settings['token'], url=url)
+        self.req_url = 'https://readability.com/api/content/v1/parser'
+        self.token = token
 
     def getArticle(self):
         # for some reason passing self.args to .get() doesnt work #FuckingMagic
-        response = requests.get(self.req_url, {
-            'token': self.args['token'],
-            'url': self.args['url']
-        })
+        articles = []
 
-        if response.status_code == requests.codes.ok:
-            print("Response recieved. CODE: " + str(response.status_code))
-            json_resp = response.json()
-            self.response = json_resp
-            content = json_resp['content']
+        for url in self.urls:
+            print(url)
+            response = requests.get(self.req_url, {
+                'token': self.token,
+                'url'  : url
+            })
+            if response.status_code == requests.codes.ok:
+                print("Response recieved. CODE: " + str(response.status_code))
+                json_resp = response.json()
+                self.response = json_resp
+                articles.append({
+                    'body':json_resp['content'],
+                    'title':json_resp['title']
+                })
 
-        return content
+        return articles
 
-    def savePDF(self, content, title=''):
+    def savePDF(self, content):
         pdf = ToPDF(content)
-        pdf.convert(title=title)
-
-    def writeDebugFiles(self):
-        with open('etc/content.html', 'w') as f:
-            f.write(self.content)
-        with open("etc/response.json", 'w') as response_json:
-            response_json.write(self.response.text)
-            response_json.close()
-
+        pdf.convert()
 
 def main():
     print('PATH: ' + os.path.dirname(os.path.abspath(__file__)))
@@ -55,6 +50,6 @@ def main():
         req = ArticleRequester(url=args.u)
     else:
         req = ArticleRequester()
-    article = req.getArticle()
+    articles = req.getArticle()
     response = req.response
-    req.savePDF(article, title=response['title'])
+    req.savePDF(articles)
